@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>หวานเย็น | ไอติม & ชา</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #FFF8EF;
+    --pink: #FF8FAB;
+    --pink-deep: #FF6B94;
+    --mint: #A8E6CF;
+    --mint-deep: #7FD6B4;
+    --yellow: #FFD166;
+    --brown: #6B4226;
+    --brown-soft: #9C7259;
+    --white: #FFFFFF;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  body{
+    font-family:'Prompt', sans-serif;
+    background:var(--cream);
+    color:var(--brown);
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Mali', cursive;
+  }
+
+  /* ---------- Decorative floating emoji background ---------- */
+  .floaters{
+    position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
+  }
+  .floaters span{
+    position:absolute;
+    font-size:28px;
+    opacity:0.18;
+    animation: floatUp 14s linear infinite;
+  }
+  @keyframes floatUp{
+    0%{ transform: translateY(110vh) rotate(0deg); }
+    100%{ transform: translateY(-10vh) rotate(360deg); }
+  }
+
+  /* ---------- Header / Hero ---------- */
+  header{
+    position:relative;
+    text-align:center;
+    padding: 70px 20px 130px;
+    background: linear-gradient(160deg, #FFE1EC 0%, var(--cream) 65%);
+    z-index:1;
+  }
+
+  .logo-badge{
+    display:inline-block;
+    font-size:64px;
+    animation: wobble 3s ease-in-out infinite;
+    filter: drop-shadow(0 6px 10px rgba(255,107,148,0.25));
+  }
+  @keyframes wobble{
+    0%,100%{ transform: rotate(-6deg) translateY(0); }
+    50%{ transform: rotate(6deg) translateY(-8px); }
+  }
+
+  header h1{
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    color: var(--pink-deep);
+    margin-top: 10px;
+    text-shadow: 2px 2px 0 var(--white);
+  }
+
+  header p{
+    margin-top: 14px;
+    font-size: 1.05rem;
+    color: var(--brown-soft);
+    font-weight: 400;
+  }
+
+  .badge-row{
+    margin-top: 24px;
+    display:flex;
+    gap: 14px;
+    justify-content:center;
+    flex-wrap: wrap;
+  }
+  .badge-row span{
+    background: var(--white);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 0 rgba(107,66,38,0.08);
+    border: 2px dashed var(--pink);
+  }
+
+  /* Drip divider (signature element) */
+  .drip{
+    position:absolute;
+    bottom:-1px; left:0; width:100%;
+    line-height:0;
+  }
+  .drip svg{ width:100%; height:90px; display:block; }
+
+  /* ---------- Tabs ---------- */
+  .tab-wrap{
+    position:relative;
+    z-index:2;
+    display:flex;
+    justify-content:center;
+    gap: 16px;
+    margin: -10px 0 44px;
+    flex-wrap: wrap;
+    padding: 0 16px;
+  }
+
+  .tab-btn{
+    font-family:'Mali', cursive;
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 14px 34px;
+    border-radius: 999px;
+    border: 3px solid transparent;
+    cursor: pointer;
+    background: var(--white);
+    color: var(--brown-soft);
+    box-shadow: 0 6px 0 rgba(107,66,38,0.1);
+    transition: transform .15s ease, box-shadow .15s ease, color .2s ease, background .2s ease;
+  }
+  .tab-btn:hover{ transform: translateY(-3px); }
+  .tab-btn:active{ transform: translateY(1px); box-shadow: 0 2px 0 rgba(107,66,38,0.1); }
+
+  .tab-btn.active.icecream{
+    background: var(--pink);
+    color: var(--white);
+    box-shadow: 0 6px 0 var(--pink-deep);
+  }
+  .tab-btn.active.tea{
+    background: var(--mint);
+    color: var(--brown);
+    box-shadow: 0 6px 0 var(--mint-deep);
+  }
+
+  /* ---------- Menu section ---------- */
+  main{
+    position:relative;
+    z-index:1;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  .menu-section{ display:none; animation: fadeIn .4s ease; }
+  .menu-section.visible{ display:block; }
+
+  @keyframes fadeIn{
+    from{ opacity:0; transform: translateY(10px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+
+  .section-title{
+    text-align:center;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+  .section-title.icecream{ color: var(--pink-deep); }
+  .section-title.tea{ color: #4E9A7C; }
+
+  .section-sub{
+    text-align:center;
+    color: var(--brown-soft);
+    margin-bottom: 36px;
+    font-size: 0.95rem;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 22px;
+  }
+
+  .card{
+    background: var(--white);
+    border-radius: 24px;
+    padding: 22px 20px 20px;
+    position:relative;
+    box-shadow: 0 8px 0 rgba(107,66,38,0.06), 0 12px 24px rgba(107,66,38,0.06);
+    transition: transform .2s ease, box-shadow .2s ease;
+    border: 2px solid transparent;
+  }
+  .card:hover{
+    transform: translateY(-6px) rotate(-1deg);
+    border-color: var(--pink);
+  }
+  .menu-section.tea .card:hover{ border-color: var(--mint-deep); }
+
+  .card .emoji{
+    font-size: 2.6rem;
+    display:block;
+    margin-bottom: 10px;
+  }
+
+  .card h3{
+    font-size: 1.25rem;
+    color: var(--brown);
+    margin-bottom: 6px;
+  }
+
+  .card .desc{
+    font-size: 0.85rem;
+    color: var(--brown-soft);
+    line-height: 1.5;
+    min-height: 40px;
+  }
+
+  .card .price-row{
+    margin-top: 14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+
+  .price-tag{
+    font-family:'Mali', cursive;
+    font-weight: 700;
+    font-size: 1.15rem;
+    padding: 5px 16px;
+    border-radius: 999px;
+    background: var(--yellow);
+    color: var(--brown);
+  }
+
+  .add-btn{
+    width: 38px; height:38px;
+    border-radius: 50%;
+    border:none;
+    background: var(--pink);
+    color:white;
+    font-size: 1.2rem;
+    cursor:pointer;
+    box-shadow: 0 3px 0 var(--pink-deep);
+    transition: transform .15s ease;
+  }
+  .menu-section.tea .add-btn{ background: var(--mint-deep); box-shadow: 0 3px 0 #5CAE8B; }
+  .add-btn:hover{ transform: scale(1.1) rotate(15deg); }
+  .add-btn:active{ transform: scale(0.95); }
+
+  .best{
+    position:absolute;
+    top:-10px; right:14px;
+    background: var(--pink-deep);
+    color:white;
+    font-size: 0.68rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight:600;
+    transform: rotate(6deg);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  }
+  .menu-section.tea .best{ background: #4E9A7C; }
+
+  /* ---------- Footer ---------- */
+  footer{
+    text-align:center;
+    padding: 40px 20px 50px;
+    color: var(--brown-soft);
+    font-size: 0.9rem;
+    position:relative;
+    z-index:1;
+  }
+  footer .heart{ color: var(--pink-deep); }
+
+  @media (max-width: 480px){
+    .tab-btn{ padding: 12px 24px; font-size: 1.05rem; }
+    header{ padding: 54px 16px 110px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="floaters" id="floaters"></div>
+
+<header>
+  <div class="logo-badge">🍦</div>
+  <h1>ร้านหวานเย็น</h1>
+  <p>ไอติมโฮมเมด &amp; ชาเย็นชื่นใจ ทำสดใหม่ทุกวัน 🌸</p>
+  <div class="badge-row">
+    <span>🚚 ส่งไว</span>
+    <span>🌿 วัตถุดิบแท้</span>
+    <span>💯 หวานน้อยได้</span>
+  </div>
+
+  <div class="drip">
+    <svg viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#FFF8EF" d="M0,40 C50,90 100,0 150,40 C200,80 250,0 300,40 C350,80 400,0 450,40 C500,80 550,0 600,40 C650,80 700,0 750,40 C800,80 850,0 900,40 C950,80 1000,0 1050,40 C1100,80 1150,10 1200,40 L1200,90 L0,90 Z"/>
+    </svg>
+  </div>
+</header>
+
+<div class="tab-wrap">
+  <button class="tab-btn icecream active" data-target="icecream">🍦 หมวดไอติม</button>
+  <button class="tab-btn tea" data-target="tea">🧋 หมวดชา</button>
+</div>
+
+<main>
+  <!-- ICE CREAM -->
+  <section class="menu-section icecream visible" id="icecream">
+    <h2 class="section-title icecream">🍨 เมนูไอติม</h2>
+    <p class="section-sub">สโคปนุ่ม เนียนละมุน เลือกได้ตามใจปาก</p>
+    <div class="grid">
+
+      <div class="card">
+        <span class="best">ขายดี</span>
+        <span class="emoji">🍦</span>
+        <h3>วานิลลาโบราณ</h3>
+        <p class="desc">สูตรดั้งเดิม หอมกลิ่นวานิลลาแท้ เนื้อเนียนนุ่ม</p>
+        <div class="price-row">
+          <span class="price-tag">35 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="emoji">🍫</span>
+        <h3>ช็อกโกแลตเข้มข้น</h3>
+        <p class="desc">ช็อกโกแลตเบลเยียม 70% หวานละมุนไม่ขม</p>
+        <div class="price-row">
+          <span class="price-tag">40 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="best">ขายดี</span>
+        <span class="emoji">🍓</span>
+        <h3>สตรอเบอร์รี่สด</h3>
+        <p class="desc">ทำจากสตรอเบอร์รี่จริง เปรี้ยวหวานกำลังดี</p>
+        <div class="price-row">
+          <span class="price-tag">45 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="emoji">🥭</span>
+        <h3>มะม่วงน้ำปลาหวาน</h3>
+        <p class="desc">มะม่วงสุกหอมหวาน ตัดรสด้วยน้ำปลาหวานนิดๆ</p>
+        <div class="price-row">
+          <span class="price-tag">50 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="emoji">🍵</span>
+        <h3>มัทฉะเกียวโต</h3>
+        <p class="desc">ชาเขียวมัทฉะแท้จากญี่ปุ่น ขมนิดหวานหน่อย</p>
+        <div class="price-row">
+          <span class="price-tag">55 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="emoji">🍪</span>
+        <h3>คุกกี้แอนด์ครีม</h3>
+        <p class="desc">ครีมเนียนคลุกเคล้าคุกกี้ช็อกโกแลตกรุบกรอบ</p>
+        <div class="price-row">
+          <span class="price-tag">45 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="emoji">💜</span>
+        <h3>เผือกกะทิ</h3>
+        <p class="desc">เผือกบดหอมมัน ผสมกะทิสดชื่นใจ</p>
+        <div class="price-row">
+          <span class="price-tag">45 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="best">พรีเมียม</span>
+        <span class="emoji">👑</span>
+        <h3>ทุเรียนหมอนทอง</h3>
+        <p class="desc">ทุเรียนแท้เนื้อเยอะ หอมเข้มข้นสไตล์ไทย</p>
+        <div class="price-row">
+          <span class="price-tag">60 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TEA -->
+  <section class="menu-section tea" id="tea">
+    <h2 class="section-title tea">🧋 เมนูชา</h2>
+    <p class="section-sub">ชงสดแก้วต่อแก้ว เย็นฉ่ำทุกอึก</p>
+    <div class="grid">
+
+      <div class="card">
+        <span class="best">ขายดี</span>
+        <span class="emoji">🧋</span>
+        <h3>ชานมไข่มุก</h3>
+        <p class="desc">ชานมหอมมัน ไข่มุกเคี้ยวหนึบทำสดทุกวัน</p>
+        <div class="price-row">
+          <span class="price-tag">45 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="emoji">🍵</span>
+        <h3>ชาเขียวนมสด</h3>
+        <p class="desc">ชาเขียวญี่ปุ่นตัดกับนมสด หอมละมุน</p>
+        <div class="price-row">
+          <span class="price-tag">45 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="best">ขายดี</span>
+        <span class="emoji">🧡</span>
+        <h3>ชาไทยเย็น</h3>
+        <p class="desc">ชาไทยสูตรต้นตำรับ หวานมันสไตล์ไทยแท้</p>
+        <div class="price-row">
+          <span class="price-tag">40 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="emoji">🍋</span>
+        <h3>ชามะนาวโซดา</h3>
+        <p class="desc">ชาผสมมะนาวสดและโซดา ซ่าชื่นใจ</p>
+        <div class="price-row">
+          <span class="price-tag">40 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="emoji">🌸</span>
+        <h3>ชาดอกไม้ผลไม้รวม</h3>
+        <p class="desc">กลิ่นดอกไม้หอมอ่อนๆ ผสมผลไม้รวมสดชื่น</p>
+        <div class="price-row">
+          <span class="price-tag">50 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="best">พรีเมียม</span>
+        <span class="emoji">🍑</span>
+        <h3>ชาพีชโยเกิร์ต</h3>
+        <p class="desc">ชาพีชหอมหวาน ท็อปด้วยโยเกิร์ตเนื้อครีมมี่</p>
+        <div class="price-row">
+          <span class="price-tag">55 ฿</span>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  ทำด้วย <span class="heart">♡</span> ทุกแก้วทุกถ้วย · เปิดทุกวัน 10:00–20:00 🌤️
+</footer>
+
+<script>
+  // Tab switching
+  const buttons = document.querySelectorAll('.tab-btn');
+  const sections = document.querySelectorAll('.menu-section');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const target = btn.dataset.target;
+      sections.forEach(sec=>{
+        sec.classList.toggle('visible', sec.id === target);
+      });
+    });
+  });
+
+  // Floating background emojis
+  const emojis = ['🍦','🍧','🧋','🍵','🍓','🍋','🌸','🍪'];
+  const floaters = document.getElementById('floaters');
+  for(let i=0;i<16;i++){
+    const el = document.createElement('span');
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left = Math.random()*100 + 'vw';
+    el.style.animationDuration = (10 + Math.random()*10) + 's';
+    el.style.animationDelay = (Math.random()*14) + 's';
+    el.style.fontSize = (18 + Math.random()*22) + 'px';
+    floaters.appendChild(el);
+  }
+
+  // Cute bounce feedback when adding item
+  document.querySelectorAll('.add-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      btn.textContent = '✓';
+      btn.style.transform = 'scale(1.2)';
+      setTimeout(()=>{
+        btn.textContent = '+';
+        btn.style.transform = 'scale(1)';
+      }, 600);
+    });
+  });
+</script>
+
+</body>
+</html>
